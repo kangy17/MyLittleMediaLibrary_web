@@ -29,7 +29,8 @@ XAMPP
 OpenServer
 Denwer
 любой другой сервер с поддержкой PHP + MySQL
-📁 Структура проекта
+
+# 📁 Структура проекта
 medialibrary/
 │
 ├── index.html          # Главная страница
