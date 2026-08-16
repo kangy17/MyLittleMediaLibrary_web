@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Little Media Library</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #09090b;
+            color: #f2f2f2;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.08;
+            background-image:
+                linear-gradient(rgba(255, 64, 129, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 64, 129, 0.08) 1px, transparent 1px);
+            background-size: 70px 70px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 45px;
+
+            background: rgba(10, 10, 12, 0.88);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(255, 64, 129, 0.15);
+
+            z-index: 900;
+
+            animation: headerAppear 0.7s ease;
+        }
+
+        @keyframes headerAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .menu-button {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+
+            border: 1px solid rgba(255, 64, 129, 0.4);
+            background: rgba(255, 64, 129, 0.05);
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .menu-button span {
+            width: 20px;
+            height: 2px;
+            background: #ff4081;
+
+            transition: 0.3s;
+        }
+
+        .menu-button:hover {
+            background: #ff4081;
+            box-shadow: 0 0 25px rgba(255, 64, 129, 0.4);
+        }
+
+        .menu-button:hover span {
+            background: #09090b;
+        }
+
+        .developer {
+            font-size: 15px;
+            color: #b5b5b5;
+            letter-spacing: 1px;
+        }
+
+        .developer strong {
+            color: #ff4081;
+            font-weight: 600;
+        }
+
+        .top-navigation {
+            display: flex;
+            align-items: center;
+            gap: 45px;
+        }
+
+        .top-navigation a {
+            position: relative;
+
+            color: #dedede;
+            text-decoration: none;
+
+            font-size: 16px;
+
+            transition: 0.3s;
+        }
+
+        .top-navigation a::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            bottom: -8px;
+
+            width: 0;
+            height: 2px;
+
+            background: #ff4081;
+
+            transition: 0.3s;
+        }
+
+        .top-navigation a:hover {
+            color: #ff4081;
+        }
+
+        .top-navigation a:hover::after {
+            width: 100%;
+        }
+
+        /* =========================
+           SIDE MENU
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 300px;
+            height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #111116 0%,
+                    #09090b 100%
+                );
+
+            border-right: 1px solid rgba(255, 64, 129, 0.25);
+
+            z-index: 1100;
+
+            transform: translateX(-100%);
+
+            transition: transform 0.45s cubic-bezier(.77,0,.18,1);
+
+            padding: 35px 25px;
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-logo {
+            margin-bottom: 45px;
+
+            padding-bottom: 25px;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar-logo .symbol {
+            color: #ff4081;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .sidebar-logo h2 {
+            font-size: 20px;
+            margin-top: 8px;
+        }
+
+        .sidebar-logo span {
+            color: #ff4081;
+            font-size: 12px;
+            letter-spacing: 3px;
+        }
+
+        .sidebar-close {
+            position: absolute;
+
+            top: 25px;
+            right: 25px;
+
+            border: none;
+            background: transparent;
+
+            color: #888;
+            font-size: 25px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .sidebar-close:hover {
+            color: #ff4081;
+            transform: rotate(90deg);
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            padding: 16px;
+
+            color: #cfcfcf;
+            text-decoration: none;
+
+            border-left: 2px solid transparent;
+
+            transition: 0.3s;
+        }
+
+        .sidebar-links a:hover,
+        .sidebar-links a.active {
+            color: #ff4081;
+
+            background: rgba(255, 64, 129, 0.07);
+
+            border-left-color: #ff4081;
+
+            padding-left: 22px;
+        }
+
+        .sidebar-icon {
+            width: 25px;
+            text-align: center;
+            color: #ff4081;
+            font-size: 17px;
+        }
+
+        .beta {
+            margin-left: auto;
+
+            font-size: 9px;
+
+            padding: 3px 6px;
+
+            border: 1px solid #ff4081;
+            color: #ff4081;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.65);
+
+            backdrop-filter: blur(4px);
+
+            z-index: 1050;
+
+            opacity: 0;
+            visibility: hidden;
+
+            transition: 0.3s;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 760px;
+
+            padding: 90px 8% 70px;
+
+            display: flex;
+            align-items: center;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 600px;
+            height: 600px;
+
+            right: 5%;
+            top: 100px;
+
+            background: rgba(255, 0, 119, 0.08);
+
+            filter: blur(100px);
+
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            width: 55%;
+
+            position: relative;
+            z-index: 2;
+
+            animation: heroLeft 1s ease;
+        }
+
+        @keyframes heroLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .eyebrow {
+            color: #ff4081;
+
+            font-size: 14px;
+
+            letter-spacing: 4px;
+
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(60px, 7vw, 110px);
+
+            line-height: 0.9;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: -5px;
+
+            margin-bottom: 35px;
+        }
+
+        .hero h1 span {
+            color: #ff4081;
+
+            text-shadow:
+                0 0 20px rgba(255, 64, 129, 0.35);
+        }
+
+        .hero-description {
+            max-width: 650px;
+
+            color: #aaa;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .button {
+            min-width: 190px;
+
+            padding: 16px 25px;
+
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+
+            border: 1px solid #ff4081;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .button-primary {
+            background: #ff4081;
+            color: #09090b;
+
+            box-shadow:
+                0 0 30px rgba(255, 64, 129, 0.2);
+        }
+
+        .button-primary:hover {
+            background: #ff5d96;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 10px 35px rgba(255, 64, 129, 0.3);
+        }
+
+        .button-secondary {
+            background: transparent;
+            color: #ff4081;
+        }
+
+        .button-secondary:hover {
+            background: rgba(255, 64, 129, 0.1);
+
+            transform: translateY(-3px);
+        }
+
+        /* =========================
+           HERO IMAGE
+        ========================= */
+
+        .hero-image {
+            position: absolute;
+
+            right: 5%;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 43%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            animation: heroImage 1.2s ease;
+        }
+
+        @keyframes heroImage {
+            from {
+                opacity: 0;
+                transform:
+                    translate(80px, -50%)
+                    scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translate(0, -50%)
+                    scale(1);
+            }
+        }
+
+        .hero-image::before {
+            content: "";
+
+            position: absolute;
+
+            width: 450px;
+            height: 450px;
+
+            border: 1px solid rgba(255, 64, 129, 0.2);
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 80px rgba(255, 64, 129, 0.1);
+        }
+
+        .hero-image img {
+            width: min(440px, 90%);
+
+            position: relative;
+            z-index: 2;
+
+            filter:
+                drop-shadow(0 0 30px rgba(255, 64, 129, 0.25));
+
+            animation: floating 5s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(2deg);
+            }
+        }
+
+        /* =========================
+           GROUPS
+        ========================= */
+
+        .groups-section {
+            position: relative;
+
+            padding: 80px 8% 110px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+
+            margin-bottom: 40px;
+        }
+
+        .section-label {
+            color: #ff4081;
+
+            font-family: monospace;
+
+            font-size: 14px;
+
+            margin-bottom: 10px;
+        }
+
+        .section-header h2 {
+            font-size: 42px;
+
+            text-transform: uppercase;
+
+            letter-spacing: -1px;
+        }
+
+        .section-description {
+            color: #777;
+
+            max-width: 400px;
+
+            text-align: right;
+
+            line-height: 1.6;
+        }
+
+        .bands-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 25px;
+        }
+
+        .band-card {
+            position: relative;
+
+            background: #101014;
+
+            border: 1px solid #27272d;
+
+            overflow: hidden;
+
+            transition:
+                transform 0.4s,
+                border-color 0.4s,
+                box-shadow 0.4s;
+
+            animation: cardAppear 0.8s ease;
+        }
+
+        .band-card:hover {
+            transform: translateY(-8px);
+
+            border-color: #ff4081;
+
+            box-shadow:
+                0 20px 60px rgba(255, 64, 129, 0.12);
+        }
+
+        .band-image {
+            position: relative;
+
+            height: 300px;
+
+            overflow: hidden;
+        }
+
+        .band-image::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    to top,
+                    #101014,
+                    transparent 60%
+                );
+        }
+
+        .band-image img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition: transform 0.5s;
+        }
+
+        .band-card:hover .band-image img {
+            transform: scale(1.07);
+        }
+
+        .band-info {
+            padding: 5px 25px 25px;
+        }
+
+        .band-info h3 {
+            font-size: 24px;
+
+            margin-bottom: 10px;
+        }
+
+        .band-genre {
+            color: #ff4081;
+
+            font-size: 13px;
+
+            letter-spacing: 1px;
+        }
+
+        .band-arrow {
+            position: absolute;
+
+            right: 25px;
+            bottom: 24px;
+
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid #ff4081;
+
+            color: #ff4081;
+
+            transition: 0.3s;
+        }
+
+        .band-card:hover .band-arrow {
+            background: #ff4081;
+            color: #09090b;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+
+            padding: 30px 8%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #666;
+
+            font-size: 13px;
+        }
+
+        footer span {
+            color: #ff4081;
+        }
+
+        /* =========================
+           DIALOG
+        ========================= */
+
+        .custom-dialog-container {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.75);
+
+            backdrop-filter: blur(8px);
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 2000;
+        }
+
+        .custom-dialog-box {
+            width: min(420px, 90%);
+
+            padding: 35px;
+
+            background: #111116;
+
+            border: 1px solid #ff4081;
+
+            box-shadow:
+                0 0 70px rgba(255, 64, 129, 0.2);
+
+            text-align: center;
+
+            animation: dialogAppear 0.4s ease;
+        }
+
+        @keyframes dialogAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .custom-dialog-message {
+            color: #eee;
+
+            font-size: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .custom-dialog-message span {
+            color: #ff4081;
+        }
+
+        .custom-dialog-button {
+            padding: 12px 30px;
+
+            background: #ff4081;
+
+            border: none;
+
+            color: #09090b;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .hero {
+                padding-left: 6%;
+                padding-right: 6%;
+            }
+
+            .hero-content {
+                width: 60%;
+            }
+
+            .hero-image {
+                width: 42%;
+                right: 0;
+            }
+
+            .hero-image img {
+                width: 350px;
+            }
+
+            .bands-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .band-image {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+            .developer {
+                display: none;
+            }
+
+            .top-navigation {
+                gap: 15px;
+            }
+
+            .top-navigation a {
+                font-size: 13px;
+            }
+
+            .hero {
+                min-height: auto;
+
+                padding-top: 130px;
+                padding-bottom: 80px;
+
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-content {
+                width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 58px;
+                letter-spacing: -3px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+
+                width: 100%;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+            .hero-image {
+                position: relative;
+
+                width: 100%;
+
+                right: auto;
+                top: auto;
+
+                margin-top: 60px;
+
+                transform: none;
+            }
+
+            .hero-image img {
+                width: 300px;
+            }
+
+            .hero-image::before {
+                width: 320px;
+                height: 320px;
+            }
+
+            .section-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+            .section-description {
+                text-align: left;
+            }
+
+            .section-header h2 {
+                font-size: 32px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+
+    <button class="sidebar-close" id="sidebarClose">
+        ×
+    </button>
+
+    <div class="sidebar-logo">
+        <div class="symbol">&lt;KRIS /&gt;</div>
+        <h2>My Little Media</h2>
+        <span>MEDIA LIBRARY</span>
+    </div>
+
+    <nav class="sidebar-links">
+
+        <a href="#home" class="active">
+            <span class="sidebar-icon">⌂</span>
+            Главная
+        </a>
+
+        <a href="info.html">
+            <span class="sidebar-icon">ⓘ</span>
+            О сайте
+        </a>
+
+        <a href="kont.php">
+            <span class="sidebar-icon">✉</span>
+            Контакты
+        </a>
+
+        <a href="bands.php">
+            <span class="sidebar-icon">♫</span>
+            Группы
+            <span class="beta">БЕТА</span>
+        </a>
+
+        <a href="favorites.php">
+            <span class="sidebar-icon">♡</span>
+            Избранное
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="header-left">
+
+        <button class="menu-button" id="menuButton" aria-label="Открыть меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="developer">
+            Developed by <strong>Kris</strong>
+        </div>
+
+    </div>
+
+    <nav class="top-navigation">
+
+        <a href="info.html">
+            О сайте
+        </a>
+
+        <a href="#home">
+            Главная
+        </a>
+
+        <a href="kont.php">
+            Контакты
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<main>
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            // ТВОЯ МУЗЫКА. ТВОИ ПРАВИЛА.
+        </div>
+
+        <h1>
+            MY LITTLE<br>
+            <span>MEDIA</span><br>
+            LIBRARY
+        </h1>
+
+        <p class="hero-description">
+            Погрузитесь в мир музыки с помощью лучших
+            отрывков песен. Откройте для себя удивительные
+            строки и фразы, которые заставят вас переживать,
+            вспоминать и вдохновляться.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="log.php"
+                class="button button-primary"
+                id="loginButton"
+            >
+                ВОЙТИ
+                <span>→</span>
+            </a>
+
+            <a
+                href="bands.php"
+                class="button button-secondary"
+            >
+                ОТКРЫТЬ ГРУППЫ
+                <span>♫</span>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-image">
+
+        <img
+            src="bg1.png"
+            alt="Музыкальная пластинка"
+        >
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     GROUPS
+========================= -->
+
+<section class="groups-section">
+
+    <div class="section-header">
+
+        <div>
+
+            <div class="section-label">
+                // РЕАЛИЗОВАННЫЕ ГРУППЫ
+            </div>
+
+            <h2>
+                Музыка, которую<br>
+                уже можно слушать
+            </h2>
+
+        </div>
+
+        <p class="section-description">
+            Сейчас в медиатеке реализована информация
+            о трёх группах. Остальные исполнители
+            доступны в общем списке групп.
+        </p>
+
+    </div>
+
+
+    <div class="bands-grid">
+
+        <!-- LP -->
+
+        <article
+            class="band-card"
+            onclick="openBand('lp.html')"
+        >
+
+            <div class="band-image">
+
+                <img
+                    src="https://www.metalzone.fr/wp-content/uploads/2020/03/linkin-park-1200x764.jpg"
+                    alt="Linkin Park"
+                >
+
+            </div>
+
+            <div class="band-info">
+
+                <h3>
+                    Linkin Park
+                </h3>
+
+                <div class="band-genre">
+                    Ню-метал
+                </div>
+
+            </div>
+
+            <div class="band-arrow">
+                →
+            </div>
+
+        </article>
+
+
+        <!-- MSI -->
+
+        <article
+            class="band-card"
+            onclick="openBand('msi.html')"
+        >
+
+            <div class="band-image">
+
+                <img
+                    src="https://www.toledoblade.com/image/2008/10/30/1140x_a10-7_cTC/Mindless-Self-Indulgence-works-hard-at-being-original.jpg"
+                    alt="Mindless Self Indulgence"
+                >
+
+            </div>
+
+            <div class="band-info">
+
+                <h3>
+                    Mindless Self Indulgence
+                </h3>
+
+                <div class="band-genre">
+                    Электро-панк / Индастриал
+                </div>
+
+            </div>
+
+            <div class="band-arrow">
+                →
+            </div>
+
+        </article>
+
+
+        <!-- MCR -->
+
+        <article
+            class="band-card"
+            onclick="openBand('mcr.html')"
+        >
+
+            <div class="band-image">
+
+                <img
+                    src="https://www.cultura.id/wp-content/uploads/2019/12/my-chemical-romance.jpg"
+                    alt="MCR"
+                >
+
+            </div>
+
+            <div class="band-info">
+
+                <h3>
+                    My Chemical Romance
+                </h3>
+
+                <div class="band-genre">
+                    Эмо-рок
+                </div>
+
+            </div>
+
+            <div class="band-arrow">
+                →
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div>
+        © 2026 <span>Kris</span>. My Little Media Library.
+    </div>
+
+    <div>
+        made with music & code ♫
+    </div>
+
+</footer>
+
+
+<script>
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    const menuButton =
+        document.getElementById("menuButton");
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const sidebarClose =
+        document.getElementById("sidebarClose");
+
+    const sidebarOverlay =
+        document.getElementById("sidebarOverlay");
+
+
+    function openMenu() {
+
+        sidebar.classList.add("active");
+
+        sidebarOverlay.classList.add("active");
+
+        document.body.style.overflow = "hidden";
+
+    }
+
+
+    function closeMenu() {
+
+        sidebar.classList.remove("active");
+
+        sidebarOverlay.classList.remove("active");
+
+        document.body.style.overflow = "";
+
+    }
+
+
+    menuButton.addEventListener(
+        "click",
+        openMenu
+    );
+
+
+    sidebarClose.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    sidebarOverlay.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Escape") {
+                closeMenu();
+            }
+
+        }
+    );
+
+
+    /* =========================
+       SIDEBAR LINKS
+    ========================= */
+
+    document
+        .querySelectorAll(".sidebar-links a")
+        .forEach(function(link) {
+
+            link.addEventListener(
+                "click",
+                function() {
+
+                    document
+                        .querySelectorAll(".sidebar-links a")
+                        .forEach(function(item) {
+
+                            item.classList.remove("active");
+
+                        });
+
+                    this.classList.add("active");
+
+                    closeMenu();
+
+                }
+            );
+
+        });
+
+
+    /* =========================
+       BAND OPEN
+    ========================= */
+
+    function openBand(url) {
+
+        window.location.href = url;
+
+    }
+
+
+    /* =========================
+       LOGIN STATE
+    ========================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            const loginButton =
+                document.getElementById("loginButton");
+
+            const isLoggedIn =
+                localStorage.getItem("isLoggedIn");
+
+
+            /*
+             * Если пользователь вошёл
+             */
+
+            if (isLoggedIn === "true") {
+
+                loginButton.textContent = "ВЫЙТИ →";
+
+                loginButton.href = "logout.php";
+
+            }
+
+
+            /*
+             * Приветственное окно
+             */
+
+            const username =
+                localStorage.getItem("username");
+
+
+            if (
+                username &&
+                !localStorage.getItem("dialogClosed")
+            ) {
+
+                showCustomDialog(
+                    "Добро пожаловать, <span>"
+                    + username +
+                    "</span>!"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       WELCOME DIALOG
+    ========================= */
+
+    function showCustomDialog(message) {
+
+        const container =
+            document.createElement("div");
+
+
+        container.className =
+            "custom-dialog-container";
+
+
+        const box =
+            document.createElement("div");
+
+
+        box.className =
+            "custom-dialog-box";
+
+
+        const messageDiv =
+            document.createElement("div");
+
+
+        messageDiv.className =
+            "custom-dialog-message";
+
+
+        messageDiv.innerHTML =
+            message;
+
+
+        const closeButton =
+            document.createElement("button");
+
+
+        closeButton.className =
+            "custom-dialog-button";
+
+
+        closeButton.textContent =
+            "Продолжить";
+
+
+        closeButton.addEventListener(
+            "click",
+            function() {
+
+                container.remove();
+
+                localStorage.setItem(
+                    "dialogClosed",
+                    "true"
+                );
+
+            }
+        );
+
+
+        box.appendChild(messageDiv);
+
+        box.appendChild(closeButton);
+
+        container.appendChild(box);
+
+        document.body.appendChild(container);
+
+    }
+
+</script>
+
+</body>
+</html>

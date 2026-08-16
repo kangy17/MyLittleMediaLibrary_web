@@ -1,0 +1,3613 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Моя медиатека / Группы / MSI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                "Segoe UI",
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
+
+            background: #09090b;
+            color: #f2f2f2;
+
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: 1000;
+
+            opacity: 0.08;
+
+            background-image:
+                linear-gradient(
+                    rgba(255, 64, 129, 0.08) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255, 64, 129, 0.08) 1px,
+                    transparent 1px
+                );
+
+            background-size: 70px 70px;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 45px;
+
+            background: rgba(10, 10, 12, 0.88);
+
+            backdrop-filter: blur(15px);
+
+            border-bottom:
+                1px solid rgba(255, 64, 129, 0.15);
+
+            z-index: 900;
+
+            animation: headerAppear 0.7s ease;
+        }
+
+        @keyframes headerAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+
+        .menu-button {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 5px;
+
+            border:
+                1px solid rgba(255, 64, 129, 0.4);
+
+            background:
+                rgba(255, 64, 129, 0.05);
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .menu-button span {
+            width: 20px;
+            height: 2px;
+
+            background: #ff4081;
+
+            transition: 0.3s;
+        }
+
+
+        .menu-button:hover {
+            background: #ff4081;
+
+            box-shadow:
+                0 0 25px rgba(255, 64, 129, 0.4);
+        }
+
+
+        .menu-button:hover span {
+            background: #09090b;
+        }
+
+
+        .developer {
+            font-size: 15px;
+
+            color: #b5b5b5;
+
+            letter-spacing: 1px;
+        }
+
+
+        .developer strong {
+            color: #ff4081;
+            font-weight: 600;
+        }
+
+
+        .top-navigation {
+            display: flex;
+            align-items: center;
+
+            gap: 45px;
+        }
+
+
+        .top-navigation a {
+            position: relative;
+
+            color: #dedede;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            transition: 0.3s;
+        }
+
+
+        .top-navigation a::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            bottom: -8px;
+
+            width: 0;
+            height: 2px;
+
+            background: #ff4081;
+
+            transition: 0.3s;
+        }
+
+
+        .top-navigation a:hover,
+        .top-navigation a.active {
+            color: #ff4081;
+        }
+
+
+        .top-navigation a.active::after,
+        .top-navigation a:hover::after {
+            width: 100%;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 300px;
+            height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #111116 0%,
+                    #09090b 100%
+                );
+
+            border-right:
+                1px solid rgba(255, 64, 129, 0.25);
+
+            z-index: 1100;
+
+            transform: translateX(-100%);
+
+            transition:
+                transform 0.45s cubic-bezier(.77, 0, .18, 1);
+
+            padding: 35px 25px;
+        }
+
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+
+        .sidebar-logo {
+            margin-bottom: 45px;
+
+            padding-bottom: 25px;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.08);
+        }
+
+
+        .sidebar-logo .symbol {
+            color: #ff4081;
+
+            font-size: 25px;
+
+            font-weight: bold;
+        }
+
+
+        .sidebar-logo h2 {
+            font-size: 20px;
+
+            margin-top: 8px;
+        }
+
+
+        .sidebar-logo span {
+            color: #ff4081;
+
+            font-size: 12px;
+
+            letter-spacing: 3px;
+        }
+
+
+        .sidebar-close {
+            position: absolute;
+
+            top: 25px;
+            right: 25px;
+
+            border: none;
+
+            background: transparent;
+
+            color: #888;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .sidebar-close:hover {
+            color: #ff4081;
+
+            transform: rotate(90deg);
+        }
+
+
+        .sidebar-links {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+
+        .sidebar-links a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 16px;
+
+            color: #cfcfcf;
+
+            text-decoration: none;
+
+            border-left:
+                2px solid transparent;
+
+            transition: 0.3s;
+        }
+
+
+        .sidebar-links a:hover,
+        .sidebar-links a.active {
+            color: #ff4081;
+
+            background:
+                rgba(255, 64, 129, 0.07);
+
+            border-left-color: #ff4081;
+
+            padding-left: 22px;
+        }
+
+
+        .sidebar-icon {
+            width: 25px;
+
+            text-align: center;
+
+            color: #ff4081;
+
+            font-size: 17px;
+        }
+
+
+        .beta {
+            margin-left: auto;
+
+            font-size: 9px;
+
+            padding: 3px 6px;
+
+            border: 1px solid #ff4081;
+
+            color: #ff4081;
+        }
+
+
+        .sidebar-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.65);
+
+            backdrop-filter: blur(4px);
+
+            z-index: 1050;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transition: 0.3s;
+        }
+
+
+        .sidebar-overlay.active {
+            opacity: 1;
+
+            visibility: visible;
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            width: min(1500px, 94%);
+
+            margin: 0 auto;
+
+            padding-top: 76px;
+        }
+
+
+        .layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 3.5fr)
+                minmax(280px, 1fr);
+
+            gap: 28px;
+
+            padding:
+                55px 0 100px;
+        }
+
+
+        /* =========================
+           LEFT
+        ========================= */
+
+        .left {
+            min-width: 0;
+        }
+
+
+        .page-heading {
+            margin-bottom: 28px;
+        }
+
+
+        .eyebrow {
+            margin-bottom: 12px;
+
+            color: #ff4081;
+
+            font-family: monospace;
+
+            font-size: 13px;
+
+            letter-spacing: 3px;
+        }
+
+
+        .page-heading h1 {
+            margin: 0;
+
+            font-size:
+                clamp(45px, 6vw, 82px);
+
+            line-height: .9;
+
+            letter-spacing: -5px;
+
+            text-transform: uppercase;
+        }
+
+
+        .page-heading p {
+            max-width: 700px;
+
+            margin-top: 20px;
+
+            color: #888;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================
+           CONTROLS
+        ========================= */
+
+        .controls {
+            display: grid;
+
+            grid-template-columns:
+                minmax(200px, 1fr)
+                240px;
+
+            gap: 10px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .search {
+            position: relative;
+        }
+
+
+        .search-icon {
+            position: absolute;
+
+            left: 15px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #777;
+
+            font-size: 18px;
+        }
+
+
+        #search {
+            width: 100%;
+            height: 48px;
+
+            padding:
+                0 15px 0 43px;
+
+            color: white;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            outline: none;
+
+            transition: .2s;
+        }
+
+
+        #search:focus {
+            border-color:
+                rgba(255,64,129,.65);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(255,64,129,.08);
+        }
+
+
+        #sort {
+            height: 48px;
+
+            padding: 0 14px;
+
+            color: white;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            outline: none;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           ALBUMS
+        ========================= */
+
+        .section-header {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 15px;
+        }
+
+
+        .section-header h2 {
+            font-size: 22px;
+        }
+
+
+        .count {
+            color: #666;
+
+            font-size: 13px;
+        }
+
+
+        .albums {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(190px, 1fr)
+                );
+
+            gap: 15px;
+        }
+
+
+        .album {
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.015)
+                );
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            cursor: pointer;
+
+            transition:
+                transform .2s,
+                background .2s,
+                border-color .2s;
+        }
+
+
+        .album:hover {
+            transform: translateY(-4px);
+
+            background: #1c1c1c;
+
+            border-color:
+                rgba(255,64,129,.3);
+        }
+
+
+        .album-cover {
+            position: relative;
+
+            aspect-ratio: 1;
+
+            overflow: hidden;
+
+            background: #1b1b1b;
+        }
+
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition: transform .4s;
+        }
+
+
+        .album:hover .album-cover img {
+            transform: scale(1.05);
+        }
+
+
+        .album-overlay {
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(0,0,0,.45);
+
+            opacity: 0;
+
+            transition: .2s;
+        }
+
+
+        .album:hover .album-overlay {
+            opacity: 1;
+        }
+
+
+        .album-play {
+            width: 48px;
+            height: 48px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+
+            background: #ff4081;
+
+            box-shadow:
+                0 0 25px
+                rgba(255,64,129,.4);
+        }
+
+
+        .album-info {
+            padding: 14px;
+        }
+
+
+        .album-title {
+            overflow: hidden;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            text-overflow: ellipsis;
+        }
+
+
+        .album-meta {
+            margin-top: 5px;
+
+            color: #666;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           ALBUM VIEW
+        ========================= */
+
+        .album-view {
+            display: none;
+        }
+
+
+        .album-view.active {
+            display: block;
+        }
+
+
+        .back-button {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 18px;
+
+            padding: 10px 14px;
+
+            color: #aaa;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+
+        .back-button:hover {
+            color: #ff4081;
+
+            border-color:
+                rgba(255,64,129,.4);
+        }
+
+
+        .album-header {
+            display: grid;
+
+            grid-template-columns:
+                180px 1fr;
+
+            gap: 25px;
+
+            margin-bottom: 25px;
+
+            padding: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,.055),
+                    rgba(255,255,255,.015)
+                );
+
+            border:
+                1px solid rgba(255,255,255,.08);
+        }
+
+
+        .album-header img {
+            width: 180px;
+            height: 180px;
+
+            object-fit: cover;
+        }
+
+
+        .album-header h2 {
+            margin: 8px 0;
+
+            font-size: 34px;
+        }
+
+
+        .album-header-meta {
+            color: #777;
+        }
+
+
+        .album-header-description {
+            margin-top: 15px;
+
+            color: #aaa;
+        }
+
+
+        /* =========================
+           TRACKS
+        ========================= */
+
+        .tracks {
+            overflow: hidden;
+
+            border-top:
+                1px solid rgba(255,255,255,.08);
+        }
+
+
+        .track {
+            min-height: 62px;
+
+            display: grid;
+
+            grid-template-columns:
+                45px
+                minmax(0, 1fr)
+                45px;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 5px 10px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,.08);
+
+            transition: .15s;
+        }
+
+
+        .track:hover {
+            background:
+                rgba(255,255,255,.035);
+        }
+
+
+        .track-number {
+            color: #555;
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+
+        .track-info {
+            min-width: 0;
+        }
+
+
+        .track-name {
+            overflow: hidden;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            text-overflow: ellipsis;
+        }
+
+
+        .track-duration {
+            margin-top: 3px;
+
+            color: #666;
+
+            font-size: 11px;
+        }
+
+
+        .play-button {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            color: white;
+
+            background: #1c1c1c;
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+
+        .play-button:hover,
+        .play-button.active {
+            background: #ff4081;
+
+            border-color: #ff4081;
+
+            box-shadow:
+                0 0 18px
+                rgba(255,64,129,.3);
+        }
+
+
+        /* =========================
+           RIGHT SIDEBAR
+        ========================= */
+
+        .right {
+            min-width: 0;
+        }
+
+
+        .band-sidebar {
+            position: sticky;
+
+            top: 100px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #151515,
+                    #0f0f0f
+                );
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,.45);
+        }
+
+
+        .band-image {
+            width: 100%;
+            height: 270px;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        .band-content {
+            padding: 22px;
+        }
+
+
+        .band-label {
+            color: #ff4081;
+
+            font-family: monospace;
+
+            font-size: 11px;
+
+            letter-spacing: 3px;
+
+            text-transform: uppercase;
+        }
+
+
+        .band-content h2 {
+            margin: 7px 0 4px;
+
+            font-size: 29px;
+
+            line-height: 1;
+        }
+
+
+        .band-subtitle {
+            color: #666;
+
+            font-size: 12px;
+        }
+
+
+        .band-description {
+            margin-top: 20px;
+
+            color: #aaa;
+
+            font-size: 14px;
+
+            line-height: 1.65;
+        }
+
+
+        .side-block {
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid rgba(255,255,255,.08);
+        }
+
+
+        .side-block h3 {
+            margin-bottom: 13px;
+
+            font-size: 15px;
+        }
+
+
+        .member {
+            display: flex;
+
+            align-items: baseline;
+
+            justify-content: space-between;
+
+            gap: 10px;
+
+            padding: 9px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,.045);
+        }
+
+
+        .member:last-child {
+            border-bottom: 0;
+        }
+
+
+        .member-name {
+            color: #eee;
+
+            font-size: 13px;
+        }
+
+
+        .member-role {
+            color: #666;
+
+            font-size: 11px;
+
+            text-align: right;
+        }
+
+
+        .genres {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 6px;
+
+            margin-top: 18px;
+        }
+
+
+        .genre {
+            padding: 5px 8px;
+
+            color: #aaa;
+
+            background: #1b1b1b;
+
+            border:
+                1px solid rgba(255,255,255,.08);
+
+            font-size: 10px;
+        }
+
+
+        /* =========================
+           PLAYER
+        ========================= */
+
+        .player {
+            position: fixed;
+
+            z-index: 2000;
+
+            left: 50%;
+            bottom: 16px;
+
+            width: min(850px, 92%);
+
+            transform: translateX(-50%);
+
+            display: grid;
+
+            grid-template-columns:
+                48px
+                minmax(130px, 1fr)
+                auto;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 11px 14px;
+
+            background:
+                rgba(18,18,18,.94);
+
+            border:
+                1px solid
+                rgba(255,255,255,.12);
+
+            box-shadow:
+                0 20px 70px
+                rgba(0,0,0,.7);
+
+            backdrop-filter: blur(20px);
+
+            transition: .3s;
+        }
+
+
+        .player.hidden {
+            opacity: 0;
+
+            pointer-events: none;
+
+            transform:
+                translate(-50%, 130%);
+        }
+
+
+        .player-cover {
+            width: 48px;
+            height: 48px;
+
+            object-fit: cover;
+        }
+
+
+        .player-main {
+            min-width: 0;
+        }
+
+
+        .player-title {
+            overflow: hidden;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            text-overflow: ellipsis;
+        }
+
+
+        .player-artist {
+            margin-top: 2px;
+
+            color: #666;
+
+            font-size: 11px;
+        }
+
+
+        .progress-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 7px;
+        }
+
+
+        .time {
+            color: #666;
+
+            font-size: 10px;
+
+            min-width: 30px;
+        }
+
+
+        #progress {
+            width: 100%;
+
+            height: 4px;
+
+            accent-color: #ff4081;
+
+            cursor: pointer;
+        }
+
+
+        .player-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+        }
+
+
+        .player-button {
+            width: 37px;
+            height: 37px;
+
+            display: grid;
+
+            place-items: center;
+
+            color: white;
+
+            background: #242424;
+
+            border: 0;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+        }
+
+
+        .player-button:hover {
+            background: #333;
+        }
+
+
+        #volume {
+            width: 75px;
+
+            accent-color: #ff4081;
+        }
+
+
+        /* =========================
+           STATES
+        ========================= */
+
+        .loading,
+        .empty,
+        .error {
+            padding: 60px 20px;
+
+            color: #666;
+
+            text-align: center;
+        }
+
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+
+            margin:
+                0 auto 15px;
+
+            border:
+                3px solid #333;
+
+            border-top-color:
+                #ff4081;
+
+            border-radius: 50%;
+
+            animation:
+                spin .8s linear infinite;
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            border-top:
+                1px solid rgba(255,255,255,.07);
+
+            padding:
+                30px 0;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #666;
+
+            font-size: 13px;
+        }
+
+
+        footer span {
+            color: #ff4081;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+
+            .right {
+                order: -1;
+            }
+
+
+            .band-sidebar {
+                position: relative;
+
+                top: auto;
+            }
+
+
+            .band-image {
+                height: 240px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+
+            .developer {
+                display: none;
+            }
+
+
+            .top-navigation {
+                gap: 15px;
+            }
+
+
+            .top-navigation a {
+                font-size: 13px;
+            }
+
+
+            .page {
+                width: 92%;
+            }
+
+
+            .layout {
+                padding-top: 40px;
+            }
+
+
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+
+            .page-heading h1 {
+                font-size: 52px;
+
+                letter-spacing: -3px;
+            }
+
+
+            .album-header {
+                grid-template-columns: 1fr;
+            }
+
+
+            .album-header img {
+                width: 150px;
+                height: 150px;
+            }
+
+
+            .albums {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .player {
+                grid-template-columns:
+                    42px
+                    minmax(0, 1fr)
+                    auto;
+            }
+
+
+            #volume {
+                display: none;
+            }
+
+
+            footer {
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR OVERLAY
+========================= -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay">
+</div>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside
+    class="sidebar"
+    id="sidebar">
+
+    <button
+        class="sidebar-close"
+        id="sidebarClose">
+        ×
+    </button>
+
+
+    <div class="sidebar-logo">
+
+        <div class="symbol">
+            &lt;KRIS /&gt;
+        </div>
+
+        <h2>
+            My Little Media
+        </h2>
+
+        <span>
+            MEDIA LIBRARY
+        </span>
+
+    </div>
+
+
+    <nav class="sidebar-links">
+
+        <a href="index.html">
+
+            <span class="sidebar-icon">
+                ⌂
+            </span>
+
+            Главная
+
+        </a>
+
+
+        <a href="about.html">
+
+            <span class="sidebar-icon">
+                ⓘ
+            </span>
+
+            О сайте
+
+        </a>
+
+
+        <a href="kont.html">
+
+            <span class="sidebar-icon">
+                ✉
+            </span>
+
+            Контакты
+
+        </a>
+
+
+        <a
+            href="msi.html"
+            class="active"
+        >
+
+            <span class="sidebar-icon">
+                ♫
+            </span>
+
+            Группы
+
+            <span class="beta">
+                БЕТА
+            </span>
+
+        </a>
+
+
+        <a href="favorites.php">
+
+            <span class="sidebar-icon">
+                ♡
+            </span>
+
+            Избранное
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="header-left">
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            aria-label="Открыть меню">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <div class="developer">
+
+            Developed by
+            <strong>Kris</strong>
+
+        </div>
+
+    </div>
+
+
+    <nav class="top-navigation">
+
+        <a href="about.html">
+            О сайте
+        </a>
+
+        <a
+            href="index.html"
+            class="active"
+        >
+            Главная
+        </a>
+
+        <a href="kont.html">
+            Контакты
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================
+     PAGE
+========================= -->
+
+<div class="page">
+
+    <div class="layout">
+
+
+        <!-- =========================
+             LEFT
+        ========================== -->
+
+        <main class="left">
+
+            <div class="page-heading">
+
+                <div class="eyebrow">
+                    // ARTIST LIBRARY
+                </div>
+
+
+                <h1>
+
+                    MINDLESS
+
+                    <br>
+
+                    SELF
+
+                    <br>
+
+                    INDULGENCE
+
+                </h1>
+
+
+                <p>
+
+                    альбомы и треки группы,
+                    получаемые напрямую через
+                    iTunes Search API.
+
+                </p>
+
+            </div>
+
+
+            <div class="controls">
+
+                <div class="search">
+
+                    <span class="search-icon">
+                        ⌕
+                    </span>
+
+
+                    <input
+                        id="search"
+                        type="text"
+                        placeholder="поиск по трекам..."
+                    >
+
+                </div>
+
+
+                <select id="sort">
+
+                    <option value="year-asc">
+                        альбомы: старые → новые
+                    </option>
+
+                    <option value="year-desc">
+                        альбомы: новые → старые
+                    </option>
+
+                    <option value="name-asc">
+                        название: а → я
+                    </option>
+
+                    <option value="name-desc">
+                        название: я → а
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =========================
+                 ALBUMS
+            ========================== -->
+
+            <section id="albumsView">
+
+                <div class="section-header">
+
+                    <h2>
+                        альбомы
+                    </h2>
+
+
+                    <span
+                        class="count"
+                        id="albumCount"
+                    >
+                        загрузка...
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="albums"
+                    id="albums"
+                >
+
+                    <div class="loading">
+
+                        <div class="spinner"></div>
+
+                        загружаем MSI из API...
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 ALBUM VIEW
+            ========================== -->
+
+            <section
+                class="album-view"
+                id="albumView"
+            >
+
+                <button
+                    class="back-button"
+                    id="backButton"
+                >
+
+                    ← все альбомы
+
+                </button>
+
+
+                <div
+                    id="albumHeader"
+                ></div>
+
+
+                <div
+                    class="tracks"
+                    id="tracks"
+                ></div>
+
+            </section>
+
+        </main>
+
+
+        <!-- =========================
+             RIGHT
+        ========================== -->
+
+        <aside class="right">
+
+            <div class="band-sidebar">
+
+                <img
+                    class="band-image"
+                    src="https://www.toledoblade.com/image/2008/10/30/1140x_a10-7_cTC/Mindless-Self-Indulgence-works-hard-at-being-original.jpg"
+                    alt="Mindless Self Indulgence"
+                >
+
+
+                <div class="band-content">
+
+                    <div class="band-label">
+                        artist
+                    </div>
+
+
+                    <h2>
+                        Mindless Self Indulgence
+                    </h2>
+
+
+                    <div class="band-subtitle">
+                        New York · alternative / industrial
+                    </div>
+
+
+                    <div class="genres">
+
+                        <span class="genre">
+                            industrial
+                        </span>
+
+                        <span class="genre">
+                            punk
+                        </span>
+
+                        <span class="genre">
+                            electronic
+                        </span>
+
+                        <span class="genre">
+                            alternative
+                        </span>
+
+                    </div>
+
+
+                    <div class="band-description">
+
+                        Mindless Self Indulgence,
+                        или MSI, — американская группа,
+                        образованная в Нью-Йорке в 1997 году.
+                        Их музыка смешивает элементы
+                        панк-рока, индастриала, электроники
+                        и альтернативного рока.
+
+                        <br><br>
+
+                        Группа известна агрессивной
+                        электронной подачей, провокационными
+                        текстами и довольно хаотичными
+                        концертными выступлениями.
+
+                    </div>
+
+
+                    <div class="side-block">
+
+                        <h3>
+                            состав
+                        </h3>
+
+
+                        <div class="member">
+
+                            <span class="member-name">
+                                Jimmy Urine
+                            </span>
+
+                            <span class="member-role">
+                                вокал · синтезатор
+                            </span>
+
+                        </div>
+
+
+                        <div class="member">
+
+                            <span class="member-name">
+                                Steve Righ
+                            </span>
+
+                            <span class="member-role">
+                                гитара
+                            </span>
+
+                        </div>
+
+
+                        <div class="member">
+
+                            <span class="member-name">
+                                Lyn-Z
+                            </span>
+
+                            <span class="member-role">
+                                бас-гитара
+                            </span>
+
+                        </div>
+
+
+                        <div class="member">
+
+                            <span class="member-name">
+                                Kitty
+                            </span>
+
+                            <span class="member-role">
+                                ударные
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div>
+            © 2026
+            <span>Kris</span>.
+            My Little Media Library.
+        </div>
+
+
+        <div>
+            made with music &amp; code ♫
+        </div>
+
+    </footer>
+
+</div>
+
+
+<!-- =========================
+     PLAYER
+========================== -->
+
+<div
+    class="player hidden"
+    id="player"
+>
+
+    <img
+        class="player-cover"
+        id="playerCover"
+        src=""
+        alt=""
+    >
+
+
+    <div class="player-main">
+
+        <div
+            class="player-title"
+            id="playerTitle"
+        >
+            —
+        </div>
+
+
+        <div
+            class="player-artist"
+            id="playerArtist"
+        >
+            Mindless Self Indulgence
+        </div>
+
+
+        <div class="progress-row">
+
+            <span
+                class="time"
+                id="currentTime"
+            >
+                0:00
+            </span>
+
+
+            <input
+                type="range"
+                id="progress"
+                min="0"
+                max="100"
+                value="0"
+            >
+
+
+            <span
+                class="time"
+                id="duration"
+            >
+                0:00
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="player-actions">
+
+        <button
+            class="player-button"
+            id="pauseButton"
+            title="пауза"
+        >
+            ▶
+        </button>
+
+
+        <input
+            type="range"
+            id="volume"
+            min="0"
+            max="1"
+            step="0.01"
+            value="1"
+            title="громкость"
+        >
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    const menuButton =
+        document.getElementById(
+            "menuButton"
+        );
+
+
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+
+    const sidebarClose =
+        document.getElementById(
+            "sidebarClose"
+        );
+
+
+    const sidebarOverlay =
+        document.getElementById(
+            "sidebarOverlay"
+        );
+
+
+    function openMenu() {
+
+        sidebar.classList.add(
+            "active"
+        );
+
+        sidebarOverlay.classList.add(
+            "active"
+        );
+
+        document.body.style.overflow =
+            "hidden";
+
+    }
+
+
+    function closeMenu() {
+
+        sidebar.classList.remove(
+            "active"
+        );
+
+        sidebarOverlay.classList.remove(
+            "active"
+        );
+
+        document.body.style.overflow =
+            "";
+
+    }
+
+
+    menuButton.addEventListener(
+        "click",
+        openMenu
+    );
+
+
+    sidebarClose.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    sidebarOverlay.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                closeMenu();
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       API
+    ========================= */
+
+    const API =
+        "https://itunes.apple.com";
+
+
+    const ARTIST =
+        "Mindless Self Indulgence";
+
+
+    let albums = [];
+
+    let currentTracks = [];
+
+    let currentAudio = null;
+
+    let currentButton = null;
+
+
+    function apiRequest(params) {
+
+        return new Promise(
+            (resolve, reject) => {
+
+                const callbackName =
+                    "itunes_" +
+                    Date.now() +
+                    "_" +
+                    Math.floor(
+                        Math.random() * 10000
+                    );
+
+
+                const script =
+                    document.createElement(
+                        "script"
+                    );
+
+
+                const query =
+                    new URLSearchParams({
+
+                        ...params,
+
+                        callback:
+                            callbackName
+
+                    });
+
+
+                const timeout =
+                    setTimeout(
+                        () => {
+
+                            cleanup();
+
+                            reject(
+                                new Error(
+                                    "API timeout"
+                                )
+                            );
+
+                        },
+                        15000
+                    );
+
+
+                window[callbackName] =
+                    data => {
+
+                        clearTimeout(timeout);
+
+                        cleanup();
+
+                        resolve(data);
+
+                    };
+
+
+                script.src =
+                    `${API}/search?${query}`;
+
+
+                script.onerror =
+                    () => {
+
+                        clearTimeout(timeout);
+
+                        cleanup();
+
+                        reject(
+                            new Error(
+                                "iTunes API недоступен"
+                            )
+                        );
+
+                    };
+
+
+                function cleanup() {
+
+                    delete window[
+                        callbackName
+                    ];
+
+                    script.remove();
+
+                }
+
+
+                document.body.appendChild(
+                    script
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       ALBUMS
+    ========================= */
+
+    async function loadAlbums() {
+
+        const data =
+            await apiRequest({
+
+                term: ARTIST,
+
+                media: "music",
+
+                entity: "album",
+
+                attribute: "artistTerm",
+
+                country: "US",
+
+                limit: "200"
+
+            });
+
+
+        const unique =
+            new Map();
+
+
+        data.results.forEach(
+            album => {
+
+                if (
+                    album.wrapperType ===
+                    "collection" &&
+
+                    album.collectionId &&
+
+                    !unique.has(
+                        album.collectionId
+                    )
+                ) {
+
+                    unique.set(
+                        album.collectionId,
+                        album
+                    );
+
+                }
+
+            }
+        );
+
+
+        albums =
+            [...unique.values()];
+
+
+        sortAlbums();
+
+        renderAlbums();
+
+    }
+
+
+    /* =========================
+       SORT
+    ========================= */
+
+    function sortAlbums() {
+
+        const type =
+            document.getElementById(
+                "sort"
+            ).value;
+
+
+        albums.sort(
+            (a, b) => {
+
+                const nameA =
+                    (
+                        a.collectionName ||
+                        ""
+                    ).toLowerCase();
+
+
+                const nameB =
+                    (
+                        b.collectionName ||
+                        ""
+                    ).toLowerCase();
+
+
+                const dateA =
+                    a.releaseDate ||
+                    "";
+
+
+                const dateB =
+                    b.releaseDate ||
+                    "";
+
+
+                if (
+                    type ===
+                    "name-asc"
+                ) {
+
+                    return nameA.localeCompare(
+                        nameB
+                    );
+
+                }
+
+
+                if (
+                    type ===
+                    "name-desc"
+                ) {
+
+                    return nameB.localeCompare(
+                        nameA
+                    );
+
+                }
+
+
+                if (
+                    type ===
+                    "year-desc"
+                ) {
+
+                    return dateB.localeCompare(
+                        dateA
+                    );
+
+                }
+
+
+                return dateA.localeCompare(
+                    dateB
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       RENDER ALBUMS
+    ========================= */
+
+    function renderAlbums() {
+
+        const container =
+            document.getElementById(
+                "albums"
+            );
+
+
+        document.getElementById(
+            "albumCount"
+        ).textContent =
+            `${albums.length} альбомов`;
+
+
+        if (!albums.length) {
+
+            container.innerHTML =
+                `<div class="empty">
+                    альбомы не найдены ☠️
+                </div>`;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            albums.map(
+                album => {
+
+                    const cover =
+                        getCover(
+                            album,
+                            600
+                        );
+
+
+                    const year =
+                        getYear(
+                            album.releaseDate
+                        );
+
+
+                    return `
+
+                        <article
+                            class="album"
+                            onclick="
+                                openAlbum(
+                                    ${album.collectionId}
+                                )
+                            "
+                        >
+
+                            <div class="album-cover">
+
+                                <img
+                                    src="${escapeHTML(
+                                        cover
+                                    )}"
+                                    alt="${escapeHTML(
+                                        album.collectionName
+                                    )}"
+                                >
+
+
+                                <div class="album-overlay">
+
+                                    <div class="album-play">
+                                        ▶
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="album-info">
+
+                                <div class="album-title">
+
+                                    ${escapeHTML(
+                                        album.collectionName
+                                    )}
+
+                                </div>
+
+
+                                <div class="album-meta">
+
+                                    ${year}
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    /* =========================
+       OPEN ALBUM
+    ========================= */
+
+    async function openAlbum(albumId) {
+
+        const album =
+            albums.find(
+                item =>
+                    item.collectionId ==
+                    albumId
+            );
+
+
+        if (!album) {
+            return;
+        }
+
+
+        document.getElementById(
+            "albumsView"
+        ).style.display =
+            "none";
+
+
+        const albumView =
+            document.getElementById(
+                "albumView"
+            );
+
+
+        albumView.classList.add(
+            "active"
+        );
+
+
+        document.getElementById(
+            "albumHeader"
+        ).innerHTML = `
+
+            <div class="album-header">
+
+                <img
+                    src="${escapeHTML(
+                        getCover(album, 600)
+                    )}"
+                    alt=""
+                >
+
+
+                <div>
+
+                    <div class="eyebrow">
+                        // ALBUM
+                    </div>
+
+
+                    <h2>
+                        ${escapeHTML(
+                            album.collectionName
+                        )}
+                    </h2>
+
+
+                    <div class="album-header-meta">
+
+                        ${escapeHTML(
+                            album.artistName ||
+                            ARTIST
+                        )}
+
+                        ·
+
+                        ${getYear(
+                            album.releaseDate
+                        )}
+
+                    </div>
+
+
+                    <div class="album-header-description">
+
+                        ${escapeHTML(
+                            album.primaryGenreName ||
+                            "Alternative"
+                        )}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        const tracks =
+            document.getElementById(
+                "tracks"
+            );
+
+
+        tracks.innerHTML = `
+
+            <div class="loading">
+
+                <div class="spinner"></div>
+
+                загружаем треки...
+
+            </div>
+
+        `;
+
+
+        try {
+
+            currentTracks =
+                await loadTracks(
+                    albumId
+                );
+
+
+            renderTracks(
+                currentTracks
+            );
+
+        } catch (error) {
+
+            tracks.innerHTML = `
+
+                <div class="error">
+
+                    не удалось загрузить треки ☠️
+
+                    <br><br>
+
+                    ${escapeHTML(
+                        error.message
+                    )}
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =========================
+       TRACKS
+    ========================= */
+
+    function loadTracks(albumId) {
+
+        return new Promise(
+            (resolve, reject) => {
+
+                const callbackName =
+                    "lookup_" +
+                    Date.now() +
+                    "_" +
+                    Math.floor(
+                        Math.random() * 10000
+                    );
+
+
+                const script =
+                    document.createElement(
+                        "script"
+                    );
+
+
+                const url =
+                    `${API}/lookup?` +
+                    `id=${albumId}` +
+                    `&entity=song` +
+                    `&country=US` +
+                    `&callback=${callbackName}`;
+
+
+                const timeout =
+                    setTimeout(
+                        () => {
+
+                            cleanup();
+
+                            reject(
+                                new Error(
+                                    "lookup timeout"
+                                )
+                            );
+
+                        },
+                        15000
+                    );
+
+
+                window[callbackName] =
+                    data => {
+
+                        clearTimeout(timeout);
+
+                        cleanup();
+
+
+                        const result =
+                            data.results.filter(
+                                item =>
+
+                                    item.wrapperType ===
+                                    "track"
+
+                                    &&
+
+                                    item.kind ===
+                                    "song"
+                            );
+
+
+                        resolve(result);
+
+                    };
+
+
+                script.src = url;
+
+
+                script.onerror =
+                    () => {
+
+                        clearTimeout(timeout);
+
+                        cleanup();
+
+                        reject(
+                            new Error(
+                                "не удалось получить треки"
+                            )
+                        );
+
+                    };
+
+
+                function cleanup() {
+
+                    delete window[
+                        callbackName
+                    ];
+
+                    script.remove();
+
+                }
+
+
+                document.body.appendChild(
+                    script
+                );
+
+            }
+        );
+
+    }
+
+
+    function renderTracks(list) {
+
+        const container =
+            document.getElementById(
+                "tracks"
+            );
+
+
+        if (!list.length) {
+
+            container.innerHTML =
+                `<div class="empty">
+                    в этом альбоме нет треков
+                </div>`;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            list.map(
+                (track, index) => {
+
+                    const cover =
+                        getCover(
+                            track,
+                            200
+                        );
+
+
+                    const duration =
+                        track.trackTimeMillis
+                            ? formatTime(
+                                track.trackTimeMillis
+                            )
+                            : "preview";
+
+
+                    return `
+
+                        <div
+                            class="track"
+                            data-name="${escapeHTML(
+                                track.trackName
+                            )}"
+                        >
+
+                            <div class="track-number">
+
+                                ${String(
+                                    track.trackNumber ||
+                                    index + 1
+                                ).padStart(
+                                    2,
+                                    "0"
+                                )}
+
+                            </div>
+
+
+                            <div class="track-info">
+
+                                <div class="track-name">
+
+                                    ${escapeHTML(
+                                        track.trackName
+                                    )}
+
+                                </div>
+
+
+                                <div class="track-duration">
+
+                                    ${duration}
+
+                                    ${
+                                        track.previewUrl
+                                        ? " · preview"
+                                        : " · недоступно"
+                                    }
+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                class="play-button"
+                                type="button"
+                                ${track.previewUrl ? "" : "disabled"}
+                                data-url="${escapeHTML(
+                                    track.previewUrl || ""
+                                )}"
+                                data-title="${escapeHTML(
+                                    track.trackName || ""
+                                )}"
+                                data-artist="${escapeHTML(
+                                    track.artistName ||
+                                    ARTIST
+                                )}"
+                                data-cover="${escapeHTML(
+                                    cover || ""
+                                )}"
+                            >
+                                ▶
+                            </button>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    document
+        .getElementById("tracks")
+        .addEventListener(
+            "click",
+            function(event) {
+
+                const button =
+                    event.target.closest(
+                        ".play-button"
+                    );
+
+
+                if (
+                    !button ||
+                    button.disabled
+                ) {
+
+                    return;
+
+                }
+
+
+                playTrack(
+                    button.dataset.url,
+                    button.dataset.title,
+                    button.dataset.artist,
+                    button.dataset.cover,
+                    button
+                );
+
+            }
+        );
+
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    document
+        .getElementById("search")
+        .addEventListener(
+            "input",
+            function() {
+
+                const query =
+                    this.value
+                        .trim()
+                        .toLowerCase();
+
+
+                const elements =
+                    document.querySelectorAll(
+                        "#tracks .track"
+                    );
+
+
+                elements.forEach(
+                    element => {
+
+                        const name =
+                            element.dataset.name
+                                .toLowerCase();
+
+
+                        element.style.display =
+                            name.includes(query)
+                                ? "grid"
+                                : "none";
+
+                    }
+                );
+
+            }
+        );
+
+
+    /* =========================
+       SORT CHANGE
+    ========================= */
+
+    document
+        .getElementById("sort")
+        .addEventListener(
+            "change",
+            () => {
+
+                sortAlbums();
+
+                renderAlbums();
+
+            }
+        );
+
+
+    /* =========================
+       BACK
+    ========================= */
+
+    document
+        .getElementById("backButton")
+        .addEventListener(
+            "click",
+            () => {
+
+                document.getElementById(
+                    "albumView"
+                ).classList.remove(
+                    "active"
+                );
+
+
+                document.getElementById(
+                    "albumsView"
+                ).style.display =
+                    "block";
+
+
+                document.getElementById(
+                    "search"
+                ).value = "";
+
+            }
+        );
+
+
+    /* =========================
+       PLAYER
+    ========================= */
+
+    function playTrack(
+        url,
+        title,
+        artist,
+        cover,
+        button
+    ) {
+
+        if (!url) {
+            return;
+        }
+
+
+        if (
+            currentButton === button &&
+            currentAudio
+        ) {
+
+            if (
+                currentAudio.paused
+            ) {
+
+                currentAudio.play();
+
+                button.textContent =
+                    "❚❚";
+
+            } else {
+
+                currentAudio.pause();
+
+                button.textContent =
+                    "▶";
+
+            }
+
+            return;
+
+        }
+
+
+        if (currentAudio) {
+
+            currentAudio.pause();
+
+        }
+
+
+        if (currentButton) {
+
+            currentButton
+                .classList
+                .remove("active");
+
+            currentButton.textContent =
+                "▶";
+
+        }
+
+
+        currentAudio =
+            new Audio(url);
+
+
+        currentAudio.volume =
+            document.getElementById(
+                "volume"
+            ).value;
+
+
+        currentButton =
+            button;
+
+
+        button
+            .classList
+            .add("active");
+
+
+        button.textContent =
+            "❚❚";
+
+
+        document.getElementById(
+            "playerTitle"
+        ).textContent =
+            title;
+
+
+        document.getElementById(
+            "playerArtist"
+        ).textContent =
+            artist;
+
+
+        document.getElementById(
+            "playerCover"
+        ).src =
+            cover;
+
+
+        document.getElementById(
+            "player"
+        ).classList.remove(
+            "hidden"
+        );
+
+
+        document.getElementById(
+            "pauseButton"
+        ).textContent =
+            "▶";
+
+
+        document.getElementById(
+            "progress"
+        ).value =
+            0;
+
+
+        document.getElementById(
+            "currentTime"
+        ).textContent =
+            "0:00";
+
+
+        document.getElementById(
+            "duration"
+        ).textContent =
+            "0:00";
+
+
+        currentAudio.addEventListener(
+            "error",
+            () => {
+
+                if (currentButton) {
+
+                    currentButton
+                        .classList
+                        .remove("active");
+
+                    currentButton.textContent =
+                        "▶";
+
+                }
+
+
+                document.getElementById(
+                    "playerTitle"
+                ).textContent =
+                    "Не удалось воспроизвести";
+
+
+                document.getElementById(
+                    "playerArtist"
+                ).textContent =
+                    "Превью iTunes недоступно";
+
+
+                currentAudio = null;
+
+                currentButton = null;
+
+            }
+        );
+
+
+        currentAudio.play()
+            .then(() => {
+
+                document.getElementById(
+                    "pauseButton"
+                ).textContent =
+                    "❚❚";
+
+            })
+            .catch(error => {
+
+                console.error(
+                    "Audio play error:",
+                    error
+                );
+
+            });
+
+
+        currentAudio.addEventListener(
+            "loadedmetadata",
+            () => {
+
+                document.getElementById(
+                    "duration"
+                ).textContent =
+                    formatSeconds(
+                        currentAudio.duration
+                    );
+
+            }
+        );
+
+
+        currentAudio.addEventListener(
+            "timeupdate",
+            updateProgress
+        );
+
+
+        currentAudio.addEventListener(
+            "ended",
+            () => {
+
+                if (currentButton) {
+
+                    currentButton
+                        .classList
+                        .remove("active");
+
+                    currentButton.textContent =
+                        "▶";
+
+                }
+
+
+                document.getElementById(
+                    "progress"
+                ).value =
+                    0;
+
+
+                document.getElementById(
+                    "pauseButton"
+                ).textContent =
+                    "▶";
+
+
+                document.getElementById(
+                    "currentTime"
+                ).textContent =
+                    "0:00";
+
+
+                currentAudio = null;
+
+                currentButton = null;
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       PAUSE
+    ========================= */
+
+    document
+        .getElementById("pauseButton")
+        .addEventListener(
+            "click",
+            () => {
+
+                if (!currentAudio) {
+                    return;
+                }
+
+
+                if (
+                    currentAudio.paused
+                ) {
+
+                    currentAudio.play();
+
+                    document.getElementById(
+                        "pauseButton"
+                    ).textContent =
+                        "❚❚";
+
+
+                    if (currentButton) {
+
+                        currentButton.textContent =
+                            "❚❚";
+
+                    }
+
+                } else {
+
+                    currentAudio.pause();
+
+                    document.getElementById(
+                        "pauseButton"
+                    ).textContent =
+                        "▶";
+
+
+                    if (currentButton) {
+
+                        currentButton.textContent =
+                            "▶";
+
+                    }
+
+                }
+
+            }
+        );
+
+
+    /* =========================
+       PROGRESS
+    ========================= */
+
+    function updateProgress() {
+
+        if (!currentAudio) {
+            return;
+        }
+
+
+        const progress =
+            document.getElementById(
+                "progress"
+            );
+
+
+        if (currentAudio.duration) {
+
+            progress.value =
+                (
+                    currentAudio.currentTime /
+                    currentAudio.duration
+                ) * 100;
+
+        }
+
+
+        document.getElementById(
+            "currentTime"
+        ).textContent =
+            formatSeconds(
+                currentAudio.currentTime
+            );
+
+    }
+
+
+    document
+        .getElementById("progress")
+        .addEventListener(
+            "input",
+            function() {
+
+                if (!currentAudio) {
+                    return;
+                }
+
+
+                currentAudio.currentTime =
+                    (
+                        this.value / 100
+                    ) *
+                    currentAudio.duration;
+
+            }
+        );
+
+
+    /* =========================
+       VOLUME
+    ========================= */
+
+    document
+        .getElementById("volume")
+        .addEventListener(
+            "input",
+            function() {
+
+                if (currentAudio) {
+
+                    currentAudio.volume =
+                        this.value;
+
+                }
+
+            }
+        );
+
+
+    /* =========================
+       HELPERS
+    ========================= */
+
+    function getCover(
+        object,
+        size = 600
+    ) {
+
+        if (
+            !object ||
+            !object.artworkUrl100
+        ) {
+
+            return "";
+
+        }
+
+
+        return object.artworkUrl100
+            .replace(
+                "100x100",
+                `${size}x${size}`
+            );
+
+    }
+
+
+    function getYear(date) {
+
+        if (!date) {
+            return "—";
+        }
+
+
+        return new Date(date)
+            .getFullYear();
+
+    }
+
+
+    function formatTime(ms) {
+
+        return formatSeconds(
+            ms / 1000
+        );
+
+    }
+
+
+    function formatSeconds(seconds) {
+
+        if (
+            !seconds ||
+            !isFinite(seconds)
+        ) {
+
+            return "0:00";
+
+        }
+
+
+        const minutes =
+            Math.floor(
+                seconds / 60
+            );
+
+
+        const remaining =
+            Math.floor(
+                seconds % 60
+            );
+
+
+        return `${minutes}:${String(
+            remaining
+        ).padStart(2, "0")}`;
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(
+            value ?? ""
+        )
+            .replaceAll(
+                "&",
+                "&amp;"
+            )
+            .replaceAll(
+                "<",
+                "&lt;"
+            )
+            .replaceAll(
+                ">",
+                "&gt;"
+            )
+            .replaceAll(
+                '"',
+                "&quot;"
+            )
+            .replaceAll(
+                "'",
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================
+       INIT
+    ========================= */
+
+    async function init() {
+
+        try {
+
+            await loadAlbums();
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            document.getElementById(
+                "albums"
+            ).innerHTML = `
+
+                <div class="error">
+
+                    <div style="
+                        font-size:45px;
+                        margin-bottom:12px;
+                    ">
+                        ☠
+                    </div>
+
+                    <b>
+                        API решил умереть
+                    </b>
+
+                    <br><br>
+
+                    ${escapeHTML(
+                        error.message
+                    )}
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    init();
+
+</script>
+
+
+</body>
+
+</html>

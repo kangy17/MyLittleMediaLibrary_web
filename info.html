@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Моя медиатека / О сайте</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #09090b;
+            color: #f2f2f2;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: 1000;
+
+            opacity: 0.08;
+
+            background-image:
+                linear-gradient(
+                    rgba(255, 64, 129, 0.08) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255, 64, 129, 0.08) 1px,
+                    transparent 1px
+                );
+
+            background-size: 70px 70px;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 76px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 45px;
+
+            background: rgba(10, 10, 12, 0.88);
+
+            backdrop-filter: blur(15px);
+
+            border-bottom:
+                1px solid rgba(255, 64, 129, 0.15);
+
+            z-index: 900;
+
+            animation: headerAppear 0.7s ease;
+        }
+
+        @keyframes headerAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+
+        .menu-button {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 5px;
+
+            border:
+                1px solid rgba(255, 64, 129, 0.4);
+
+            background:
+                rgba(255, 64, 129, 0.05);
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .menu-button span {
+            width: 20px;
+            height: 2px;
+
+            background: #ff4081;
+
+            transition: 0.3s;
+        }
+
+
+        .menu-button:hover {
+            background: #ff4081;
+
+            box-shadow:
+                0 0 25px rgba(255, 64, 129, 0.4);
+        }
+
+
+        .menu-button:hover span {
+            background: #09090b;
+        }
+
+
+        .developer {
+            font-size: 15px;
+
+            color: #b5b5b5;
+
+            letter-spacing: 1px;
+        }
+
+
+        .developer strong {
+            color: #ff4081;
+            font-weight: 600;
+        }
+
+
+        .top-navigation {
+            display: flex;
+            align-items: center;
+
+            gap: 45px;
+        }
+
+
+        .top-navigation a {
+            position: relative;
+
+            color: #dedede;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            transition: 0.3s;
+        }
+
+
+        .top-navigation a::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            bottom: -8px;
+
+            width: 0;
+            height: 2px;
+
+            background: #ff4081;
+
+            transition: 0.3s;
+        }
+
+
+        .top-navigation a:hover,
+        .top-navigation a.active {
+            color: #ff4081;
+        }
+
+
+        .top-navigation a.active::after,
+        .top-navigation a:hover::after {
+            width: 100%;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 300px;
+            height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #111116 0%,
+                    #09090b 100%
+                );
+
+            border-right:
+                1px solid rgba(255, 64, 129, 0.25);
+
+            z-index: 1100;
+
+            transform: translateX(-100%);
+
+            transition:
+                transform 0.45s cubic-bezier(.77, 0, .18, 1);
+
+            padding: 35px 25px;
+        }
+
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+
+        .sidebar-logo {
+            margin-bottom: 45px;
+
+            padding-bottom: 25px;
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.08);
+        }
+
+
+        .sidebar-logo .symbol {
+            color: #ff4081;
+
+            font-size: 25px;
+
+            font-weight: bold;
+        }
+
+
+        .sidebar-logo h2 {
+            font-size: 20px;
+
+            margin-top: 8px;
+        }
+
+
+        .sidebar-logo span {
+            color: #ff4081;
+
+            font-size: 12px;
+
+            letter-spacing: 3px;
+        }
+
+
+        .sidebar-close {
+            position: absolute;
+
+            top: 25px;
+            right: 25px;
+
+            border: none;
+
+            background: transparent;
+
+            color: #888;
+
+            font-size: 25px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .sidebar-close:hover {
+            color: #ff4081;
+
+            transform: rotate(90deg);
+        }
+
+
+        .sidebar-links {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+
+        .sidebar-links a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 16px;
+
+            color: #cfcfcf;
+
+            text-decoration: none;
+
+            border-left:
+                2px solid transparent;
+
+            transition: 0.3s;
+        }
+
+
+        .sidebar-links a:hover,
+        .sidebar-links a.active {
+            color: #ff4081;
+
+            background:
+                rgba(255, 64, 129, 0.07);
+
+            border-left-color: #ff4081;
+
+            padding-left: 22px;
+        }
+
+
+        .sidebar-icon {
+            width: 25px;
+
+            text-align: center;
+
+            color: #ff4081;
+
+            font-size: 17px;
+        }
+
+
+        .beta {
+            margin-left: auto;
+
+            font-size: 9px;
+
+            padding: 3px 6px;
+
+            border: 1px solid #ff4081;
+
+            color: #ff4081;
+        }
+
+
+        .sidebar-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.65);
+
+            backdrop-filter: blur(4px);
+
+            z-index: 1050;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transition: 0.3s;
+        }
+
+
+        .sidebar-overlay.active {
+            opacity: 1;
+
+            visibility: visible;
+        }
+
+
+        /* =========================
+           ABOUT HERO
+        ========================= */
+
+        .about {
+            position: relative;
+
+            min-height: calc(100vh - 76px);
+
+            padding:
+                90px 8% 70px;
+
+            overflow: hidden;
+        }
+
+
+        .about::before {
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            right: -150px;
+            top: 120px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 64, 129, 0.08);
+
+            filter: blur(90px);
+        }
+
+
+        .about-grid {
+            position: relative;
+
+            z-index: 2;
+
+            display: grid;
+
+            grid-template-columns:
+                1.2fr 0.8fr;
+
+            gap: 100px;
+
+            max-width: 1400px;
+
+            margin: 0 auto;
+        }
+
+
+        /* =========================
+           LEFT
+        ========================= */
+
+        .about-main {
+            animation:
+                slideLeft 0.9s ease;
+        }
+
+
+        @keyframes slideLeft {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateX(-60px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+            }
+
+        }
+
+
+        .eyebrow {
+            color: #ff4081;
+
+            font-family: monospace;
+
+            font-size: 14px;
+
+            letter-spacing: 3px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .about-main h1 {
+            font-size:
+                clamp(65px, 8vw, 120px);
+
+            line-height: 0.88;
+
+            letter-spacing: -6px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 45px;
+        }
+
+
+        .about-main h1 span {
+            color: #ff4081;
+
+            text-shadow:
+                0 0 25px
+                rgba(255, 64, 129, 0.3);
+        }
+
+
+        .about-text {
+            max-width: 760px;
+
+            color: #aaa;
+
+            font-size: 18px;
+
+            line-height: 1.8;
+        }
+
+
+        .about-text b {
+            color: #eee;
+        }
+
+
+        .about-text i {
+            color: #ff4081;
+
+            font-style: normal;
+        }
+
+
+        /* =========================
+           TAGS
+        ========================= */
+
+        .music-tags {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 35px;
+        }
+
+
+        .music-tag {
+            padding: 9px 15px;
+
+            border:
+                1px solid #333;
+
+            color: #888;
+
+            font-family: monospace;
+
+            font-size: 12px;
+
+            transition: 0.3s;
+        }
+
+
+        .music-tag:hover {
+            color: #ff4081;
+
+            border-color: #ff4081;
+
+            background:
+                rgba(255, 64, 129, 0.05);
+        }
+
+
+        /* =========================
+           RIGHT INFO
+        ========================= */
+
+        .features {
+            animation:
+                slideRight 0.9s ease;
+        }
+
+
+        @keyframes slideRight {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateX(60px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+            }
+
+        }
+
+
+        .features-title {
+            color: #ff4081;
+
+            font-family: monospace;
+
+            font-size: 14px;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .features h2 {
+            font-size: 38px;
+
+            line-height: 1.1;
+
+            margin-bottom: 35px;
+        }
+
+
+        .feature-list {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+
+        .feature {
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+            padding: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.025);
+
+            border:
+                1px solid #222;
+
+            transition: 0.3s;
+        }
+
+
+        .feature:hover {
+            border-color: #ff4081;
+
+            transform:
+                translateX(8px);
+
+            background:
+                rgba(255, 64, 129, 0.05);
+        }
+
+
+        .feature-number {
+            color: #ff4081;
+
+            font-family: monospace;
+
+            font-size: 14px;
+
+            min-width: 25px;
+        }
+
+
+        .feature-text strong {
+            display: block;
+
+            color: #eee;
+
+            font-size: 16px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .feature-text span {
+            color: #777;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           INFO CARDS
+        ========================= */
+
+        .stats {
+            max-width: 1400px;
+
+            margin:
+                70px auto 0;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+            position: relative;
+
+            z-index: 2;
+
+            animation:
+                fadeUp 1s ease;
+        }
+
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+
+        }
+
+
+        .stat {
+            padding: 28px;
+
+            border-top:
+                1px solid #333;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 64, 129, 0.04),
+                    transparent
+                );
+        }
+
+
+        .stat-number {
+            color: #ff4081;
+
+            font-size: 42px;
+
+            font-weight: 800;
+
+            margin-bottom: 5px;
+        }
+
+
+        .stat-label {
+            color: #777;
+
+            font-size: 13px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            border-top:
+                1px solid rgba(255, 255, 255, 0.07);
+
+            padding:
+                30px 8%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            color: #666;
+
+            font-size: 13px;
+        }
+
+
+        footer span {
+            color: #ff4081;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .about-grid {
+                grid-template-columns: 1fr;
+
+                gap: 60px;
+            }
+
+
+            .stats {
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+
+            .developer {
+                display: none;
+            }
+
+
+            .top-navigation {
+                gap: 15px;
+            }
+
+
+            .top-navigation a {
+                font-size: 13px;
+            }
+
+
+            .about {
+                padding:
+                    125px 25px 60px;
+            }
+
+
+            .about-main h1 {
+                font-size: 58px;
+
+                letter-spacing:
+                    -3px;
+            }
+
+
+            .about-text {
+                font-size: 16px;
+            }
+
+
+            .features h2 {
+                font-size: 30px;
+            }
+
+
+            footer {
+                flex-direction: column;
+
+                gap: 10px;
+
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay">
+</div>
+
+
+<aside
+    class="sidebar"
+    id="sidebar">
+
+    <button
+        class="sidebar-close"
+        id="sidebarClose">
+        ×
+    </button>
+
+
+    <div class="sidebar-logo">
+
+        <div class="symbol">
+            &lt;KRIS /&gt;
+        </div>
+
+        <h2>
+            My Little Media
+        </h2>
+
+        <span>
+            MEDIA LIBRARY
+        </span>
+
+    </div>
+
+
+    <nav class="sidebar-links">
+
+        <a href="index.html">
+
+            <span class="sidebar-icon">
+                ⌂
+            </span>
+
+            Главная
+
+        </a>
+
+
+        <a
+            href="#"
+            class="active"
+            onclick="showAlert(); return false;"
+        >
+
+            <span class="sidebar-icon">
+                ⓘ
+            </span>
+
+            О сайте
+
+        </a>
+
+
+        <a href="kont.php">
+
+            <span class="sidebar-icon">
+                ✉
+            </span>
+
+            Контакты
+
+        </a>
+
+
+        <a href="bands.php">
+
+            <span class="sidebar-icon">
+                ♫
+            </span>
+
+            Группы
+
+            <span class="beta">
+                БЕТА
+            </span>
+
+        </a>
+
+
+        <a href="favorites.php">
+
+            <span class="sidebar-icon">
+                ♡
+            </span>
+
+            Избранное
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="header-left">
+
+        <button
+            class="menu-button"
+            id="menuButton"
+            aria-label="Открыть меню">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <div class="developer">
+
+            Developed by
+            <strong>Kris</strong>
+
+        </div>
+
+    </div>
+
+
+    <nav class="top-navigation">
+
+        <a
+            href="#"
+            class="active"
+            onclick="showAlert(); return false;"
+        >
+            О сайте
+        </a>
+
+        <a href="index.html">
+            Главная
+        </a>
+
+        <a href="kont.php">
+            Контакты
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<main>
+
+<section class="about">
+
+    <div class="about-grid">
+
+
+        <!-- LEFT -->
+
+        <div class="about-main">
+
+            <div class="eyebrow">
+                // О ПРОЕКТЕ
+            </div>
+
+
+            <h1>
+
+                MY LITTLE
+
+                <br>
+
+                <span>MEDIA</span>
+
+                <br>
+
+                LIBRARY
+
+            </h1>
+
+
+            <div class="about-text">
+
+                <p>
+                    Сайт
+                    <b>«Моя медиатека»</b>
+                    представляет собой онлайн-ресурс
+                    для любителей музыки жанров
+                    <i>ню-метал</i> и
+                    <i>рок</i>.
+                </p>
+
+                <br>
+
+                <p>
+                    Проект объединяет музыкальные треки,
+                    информацию об исполнителях,
+                    дискографии и другие материалы
+                    в одном месте.
+                    Главная идея сайта заключается
+                    в том, чтобы сделать взаимодействие
+                    с музыкальной библиотекой простым,
+                    удобным и визуально приятным.
+                </p>
+
+            </div>
+
+
+            <div class="music-tags">
+
+                <div class="music-tag">
+                    #LINKINPARK
+                </div>
+
+                <div class="music-tag">
+                    #ROCK
+                </div>
+
+                <div class="music-tag">
+                    #MCR
+                </div>
+
+                <div class="music-tag">
+                    #MUSIC
+                </div>
+
+                <div class="music-tag">
+                    #MEDIA
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="features">
+
+            <div class="features-title">
+                // ВОЗМОЖНОСТИ
+            </div>
+
+
+            <h2>
+                Всё необходимое
+                для музыкальной
+                библиотеки.
+            </h2>
+
+
+            <div class="feature-list">
+
+
+                <div class="feature">
+
+                    <div class="feature-number">
+                        01
+                    </div>
+
+                    <div class="feature-text">
+
+                        <strong>
+                            Прослушивание музыки
+                        </strong>
+
+                        <span>
+                            Доступ к музыкальным композициям
+                            представленных групп.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-number">
+                        02
+                    </div>
+
+                    <div class="feature-text">
+
+                        <strong>
+                            Информация о группах
+                        </strong>
+
+                        <span>
+                            История, участники и другие
+                            сведения об исполнителях.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-number">
+                        03
+                    </div>
+
+                    <div class="feature-text">
+
+                        <strong>
+                            Дискография
+                        </strong>
+
+                        <span>
+                            Альбомы и композиции
+                            в удобном формате.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-number">
+                        04
+                    </div>
+
+                    <div class="feature-text">
+
+                        <strong>
+                            Персонализированный опыт
+                        </strong>
+
+                        <span>
+                            Авторизация и возможности
+                            персональной медиатеки.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-number">
+                        05
+                    </div>
+
+                    <div class="feature-text">
+
+                        <strong>
+                            Простой интерфейс
+                        </strong>
+
+                        <span>
+                            Минимум лишних элементов,
+                            максимум понятности.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         STATS
+    ========================= -->
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                03
+            </div>
+
+            <div class="stat-label">
+                Реализованные группы
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                ∞
+            </div>
+
+            <div class="stat-label">
+                Музыкальных впечатлений
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                01
+            </div>
+
+            <div class="stat-label">
+                Большая медиатека
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div>
+        © 2026
+        <span>Kris</span>.
+        My Little Media Library.
+    </div>
+
+
+    <div>
+        made with music &amp; code ♫
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    const menuButton =
+        document.getElementById("menuButton");
+
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+
+    const sidebarClose =
+        document.getElementById("sidebarClose");
+
+
+    const sidebarOverlay =
+        document.getElementById("sidebarOverlay");
+
+
+    function openMenu() {
+
+        sidebar.classList.add("active");
+
+        sidebarOverlay.classList.add("active");
+
+        document.body.style.overflow =
+            "hidden";
+
+    }
+
+
+    function closeMenu() {
+
+        sidebar.classList.remove("active");
+
+        sidebarOverlay.classList.remove("active");
+
+        document.body.style.overflow =
+            "";
+
+    }
+
+
+    menuButton.addEventListener(
+        "click",
+        openMenu
+    );
+
+
+    sidebarClose.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    sidebarOverlay.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Escape") {
+
+                closeMenu();
+
+            }
+
+        }
+    );
+
+
+    function showAlert() {
+
+        alert(
+            "Вы уже на странице «О сайте»!"
+        );
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
+
