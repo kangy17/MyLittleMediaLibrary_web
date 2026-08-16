@@ -1,5 +1,5 @@
-<h2 style="color: #ff4081;"># MyLittleMediaLibrary_web</h2>
-<h2 style="color: #ff4081;">My Little Media Library — это веб-приложение для хранения и просмотра музыкальной медиатеки.</h2>
+# MyLittleMediaLibrary_web
+My Little Media Library — это веб-приложение для хранения и просмотра музыкальной медиатеки.
 Проект позволяет пользователям просматривать исполнителей и альбомы, добавлять понравившийся контент в избранное и работать с личным аккаунтом.
 
 ***HTML + CSS + JavaScript + PHP + MySQL.***
