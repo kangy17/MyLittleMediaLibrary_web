@@ -75,31 +75,93 @@ medialibrary/<br>
 Авторизованные пользователи могут сохранять понравившиеся элементы медиатеки в разделе Favorites.
 Избранное является персональным и связано с аккаунтом пользователя.
 ## 🗄 База данных
-Проект использует MySQL для хранения данных.
-Перед запуском необходимо создать базу данных и настроить подключение в PHP-файлах проекта.<br>
-Пример конфигурации:<br>
-$servername = "localhost";<br>
-$db_username = "root";<br>
-$db_password = "";<br>
-$dbname = "kont_db";<br>
+
+Проект использует СУБД MySQL для хранения данных. Перед запуском приложения необходимо создать базу данных, развернуть таблицы и настроить подключение в PHP-файлах проекта.
+
+### Параметры подключения по умолчанию:
+```php
+$servername = "localhost";
+$db_username = "root";
+$db_password = "";
+$dbname = "kont_db";
+```
+
+---
 
 ## 🚀 Запуск проекта
-1. Установите локальный сервер<br>
-Например, XAMPP (https://www.apachefriends.org/) или OpenServer.
-2. Поместите проект в директорию сервера<br>
-Для XAMPP:<br>
-xampp/<br>
-└── htdocs/<br>
-    └── medialibrary/<br>
-3. Запустите Apache и MySQL<br>
-Убедитесь, что оба сервиса запущены.
-4. Настройте базу данных<br>
-Создайте базу данных:<br>
-CREATE DATABASE kont_db;<br>
-После этого создайте необходимые таблицы пользователей и других данных проекта.<br>
-5. Откройте сайт<br>
-Перейдите в браузере:<br>
-http://localhost/medialibrary/
+
+### Шаг 1. Подготовка локального сервера
+Установите и запустите локальный сервер с поддержкой PHP и MySQL. Отлично подойдут:
+* **XAMPP** ([официальный сайт](https://www.apachefriends.org/))
+* **OpenServer Panel**
+
+### Шаг 2. Размещение файлов проекта
+Перенесите папку с проектом в корневую директорию вашего веб-сервера. 
+* Для **XAMPP** путь должен выглядеть так:
+  ```text
+  xampp/htdocs/medialibrary/
+  ```
+
+### Шаг 3. Запуск веб-служб
+Откройте панель управления вашего сервера (например, XAMPP Control Panel) и запустите модули **Apache** и **MySQL**. Убедитесь, что индикаторы загорелись зеленым цветом.
+
+### Шаг 4. Настройка базы данных и таблиц
+1. Откройте инструмент управления БД (например, **phpMyAdmin** по адресу `http://localhost/phpmyadmin/`).
+2. Перейдите во вкладку **SQL**.
+3. Скопируйте, вставьте и выполните единый скрипт инициализации, приведенный ниже. Он автоматически создаст базу данных `kont_db` и все 4 необходимые таблицы (`users`, `bands`, `messages`, `favorites`):
+
+```sql
+-- 1. Создание базы данных (если она еще не создана)
+CREATE DATABASE IF NOT EXISTS kont_db 
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_unicode_ci;
+
+-- Переключение на созданную базу данных
+USE kont_db;
+
+-- 2. Создание таблицы пользователей (users)
+CREATE TABLE IF NOT EXISTS users (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    pfp VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY username_unique (username)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 3. Создание таблицы музыкальных групп (bands)
+CREATE TABLE IF NOT EXISTS bands (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    genre VARCHAR(100) NOT NULL,
+    image VARCHAR(500) NOT NULL,
+    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 4. Создание таблицы сообщений обратной связи (messages)
+CREATE TABLE IF NOT EXISTS messages (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) DEFAULT NULL,
+    email VARCHAR(50) DEFAULT NULL,
+    message TEXT DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 5. Создание таблицы избранного (favorites) с составным первичным ключом
+CREATE TABLE IF NOT EXISTS favorites (
+    user_id INT NOT NULL,
+    band_id INT NOT NULL,
+    created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, band_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```
+
+### Шаг 5. Проверка работы сайта
+После успешного выполнения SQL-скрипта откройте браузер и перейдите по ссылке:
+[http://localhost/medialibrary/](http://localhost/medialibrary/)
+
 ## 🎨 Дизайн
 Проект создан как небольшая персональная музыкальная библиотека с упором на визуальную часть и удобную навигацию.
 Основные страницы:
