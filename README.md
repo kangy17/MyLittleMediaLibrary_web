@@ -2,6 +2,9 @@
 My Little Media Library — это веб-приложение для хранения и просмотра музыкальной медиатеки.
 Проект позволяет пользователям просматривать исполнителей и альбомы, добавлять понравившийся контент в избранное и работать с личным аккаунтом.
 
+> ⚠️ **Обратите внимание:** Данный репозиторий содержит пример с конфигурацией под **локальную базу данных** (для запуска на XAMPP / OpenServer).  
+> 🌐 Рабочая версия сайта с подключенной серверной БД доступна по ссылке: **[Открыть рабочий сайт](http://kangy.free.je)**
+> 
 ***HTML + CSS + JavaScript + PHP + MySQL.***
 
 * 💜 Небольшая музыкальная библиотека с собственным дизайном и системой пользователей.
@@ -156,11 +159,35 @@ CREATE TABLE IF NOT EXISTS favorites (
     created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, band_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `bands` (`id`, `name`, `genre`, `image`, `created_at`) VALUES
+(1, 'Slipknot', 'Ню-метал', 'https://i.scdn.co/image/ab67616100005174ff9f4de8c13f6f563acbfaf1', '2026-08-16 05:57:08'),
+(2, 'Mindless Self Indulgence', 'Электропанк / Индастриал', 'https://www.toledoblade.com/image/2008/10/30/1140x_a10-7_cTC/Mindless-Self-Indulgence-works-hard-at-being-original.jpg', '2026-08-16 05:57:08'),
+(3, 'System Of A Down', 'Ню-метал', 'https://i.scdn.co/image/ab6761610000e5eb60063d3451ade8f9fab397c2', '2026-08-16 05:57:08'),
+(4, 'Linkin Park', 'Ню-метал', 'https://www.metalzone.fr/wp-content/uploads/2020/03/linkin-park-1200x764.jpg', '2026-08-16 05:57:08'),
+(5, 'Deftones', 'Ню-метал', 'https://www.nme.com/wp-content/uploads/2025/08/Deftones_private_music_review_red_2000-696x442.jpg', '2026-08-16 05:57:08'),
+(6, 'My Chemical Romance', 'Эмо-рок', 'https://www.cultura.id/wp-content/uploads/2019/12/my-chemical-romance.jpg', '2026-08-16 05:57:08'),
+(7, 'Green Day', 'Панк-рок', 'https://pbs.twimg.com/media/GkQLX0-XcAEvLTC.jpg', '2026-08-16 05:57:08'),
+(8, 'blink-182', 'Панк-рок / Поп-панк', 'https://i.scdn.co/image/ab6761610000e5eb5da36f8b98dd965336a1507a', '2026-08-16 05:57:08'),
+(9, 'Panic! At The Disco', 'Эмо-рок', 'https://americansongwriter.com/wp-content/uploads/sites/7/2009/07/panic-at-the-disco.jpg?w=620', '2026-08-16 05:57:08'),
+(10, 'Twenty One Pilots', 'Альтернативный рок', 'https://c.files.bbci.co.uk/142B7/production/_92351628_twentyonepilots-mainpub-jabarijacobs.jpg', '2026-08-16 05:57:08'),
+(11, 'Limp Bizkit', 'Ню-метал', 'https://www.billboard.com/wp-content/uploads/media/Limp-Bizkit-1997-billboard-1548.jpg?w=942&h=628&crop=1', '2026-08-16 05:57:08'),
+(12, 'Evanescence', 'Ню-метал / Готик-рок', 'https://craftrecordings.com/cdn/shop/collections/evanescence_fallen_shoot__FV_5049-copyright_frank_veronsky-copy.jpg?v=1711651393', '2026-08-16 05:57:08'),
+(13, 'Pierce The Veil', 'Ню-метал / Эмо-рок', 'https://concord.com/wp-content/uploads/2016/03/PTV.webp', '2026-08-16 05:57:08'),
+(14, 'Avril Lavigne', 'Панк-рок / Поп-рок', 'https://i.namu.wiki/i/nJniFgt0z1c9YQXUygrMyUWnNov2TBF11U_fwcL9Q54ydf4dFs-oi-YTorer6r1qtNNDyBjWeMeIH108Z5D8pQ.webp', '2026-08-16 05:57:08'),
+(15, 'Paramore', 'Эмо-рок', 'https://miro.medium.com/1*FJtXHznt2WK-AcBbgVtF-A.jpeg', '2026-08-16 05:57:08');
 ```
 
 ### Шаг 5. Проверка работы сайта
 После успешного выполнения SQL-скрипта откройте браузер и перейдите по ссылке:
 [http://localhost/medialibrary/](http://localhost/medialibrary/)
+
+### Шаг 0 (дополнительно). Онлайн-версия
+Рабочая версия проекта также размещена на бесплатном хостинге с серверной базой данных MySQL.<br>
+> Открыть сайт можно по ссылке:<br>
+> [http://kangy.free.je](http://kangy.free.je)
+>
+> **⚠️ Конфигурация подключения к серверной базе данных не хранится в репозитории. Для локального запуска используются параметры подключения, указанные выше.**
 
 ## 🎨 Дизайн
 Проект создан как небольшая персональная музыкальная библиотека с упором на визуальную часть и удобную навигацию.
